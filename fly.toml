@@ -8,25 +8,32 @@ processes = []
 [env]
 
 [experimental]
-  auto_rollback = true
+allowed_public_ports = []
+auto_rollback = true
 
 [[services]]
-  http_checks = []
-  internal_port = 5001
-  processes = ["app"]
-  protocol = "tcp"
-  script_checks = []
-  [services.concurrency]
-    hard_limit = 25
-    soft_limit = 20
-    type = "connections"
+internal_port = 5001
+protocol = "tcp"
 
-  [[services.port]]
-    handlers = []
-    port = "5001"
+[[services.port]]
+handlers = []
+port = "5001"
 
-  [[services.tcp_checks]]
-    grace_period = "1s"
-    interval = "15s"
-    restart_limit = 0
-    timeout = "2s"
+[[services.tcp_checks]]
+grace_period = "1s"
+interval = "15s"
+restart_limit = 0
+timeout = "2s"
+
+[[services]]
+internal_port = 5002
+protocol = "tcp"
+
+[[services.port]]
+handlers = []
+port = "5002"
+
+[services.concurrency]
+hard_limit = 25
+soft_limit = 20
+type = "connections"
