@@ -10,6 +10,7 @@ defmodule Protohackers.Application do
     children = [
       Protohackers.EchoServer,
       Protohackers.PrimeServer,
+      Protohackers.PriceServer,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
