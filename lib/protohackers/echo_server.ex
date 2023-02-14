@@ -3,6 +3,8 @@ defmodule Protohackers.EchoServer do
 
   require Logger
 
+  @port 5001
+
   @spec start_link([]) :: :ignore | {:error, any} | {:ok, pid}
   def start_link([] = _opts) do
     GenServer.start_link(__MODULE__, :no_state)
@@ -31,14 +33,14 @@ defmodule Protohackers.EchoServer do
       exit_on_close: false,
     ]
 
-    case :gen_tcp.listen(5001, listen_options) do
+    case :gen_tcp.listen(@port, listen_options) do
       {:ok, listen_socket} ->
-        Logger.info("Listening on port 5001")
+        Logger.info("Listening on port #{@port}")
         state = %__MODULE__{listen_socket: listen_socket, supervisor: supervisor}
         {:ok, state, {:continue, :accept}}
 
       {:error, reason} ->
-        Logger.error("Failed to listen on port 5001: #{inspect(reason)}")
+        Logger.error("Failed to listen on port #{@port}: #{inspect(reason)}")
         {:stop, reason}
     end
   end
