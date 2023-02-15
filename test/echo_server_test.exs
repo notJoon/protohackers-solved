@@ -13,6 +13,7 @@ defmodule Protohackers.EchoServerTest do
     assert :gen_tcp.recv(socket, 0, 5000) == {:ok, "hello world"}
   end
 
+  @tag :capture_log
   test "echo server has max buffer size" do
     {:ok, socket} = :gen_tcp.connect(~c"localhost", 5001, mode: :binary, active: false)
 
