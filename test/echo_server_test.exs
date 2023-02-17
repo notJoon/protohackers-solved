@@ -1,5 +1,5 @@
 defmodule Protohackers.EchoServerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "echos any message" do
     {:ok, socket} = :gen_tcp.connect(~c"localhost", 5001, mode: :binary, active: false)

@@ -1,5 +1,5 @@
 defmodule Protohackers.PrimeServerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   @port 5002
 
