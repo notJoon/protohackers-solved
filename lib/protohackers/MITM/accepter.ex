@@ -5,10 +5,12 @@ defmodule Protohackers.MITM.Accepter do
 
   @port 5006
 
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link([] = _opts) do
     Task.start_link(__MODULE__, :run, [])
   end
 
+  @spec run :: no_return()
   def run do
     case :gen_tcp.listen(
            @port,
@@ -29,6 +31,7 @@ defmodule Protohackers.MITM.Accepter do
     end
   end
 
+  @spec accept_loop(:gen_tcp.socket()) :: no_return()
   defp accept_loop(listen_socket) do
     case :gen_tcp.accept(listen_socket) do
       {:ok, socket} ->

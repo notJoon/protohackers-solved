@@ -3,6 +3,7 @@ defmodule Protohackers.MITM.Connection do
 
   require Logger
 
+  @spec start_link(:gen_tcp.socket()) :: GenServer.on_start()
   def start_link(incoming_socket) do
     GenServer.start_link(__MODULE__, incoming_socket)
   end
@@ -10,6 +11,7 @@ defmodule Protohackers.MITM.Connection do
   defstruct [:incoming_socket, :outgoing_socket]
 
   @impl true
+  @spec init(:gen_tcp.socket()) :: {:ok, %__MODULE__{}} | {:stop, any()}
   def init(incoming_socket) do
     case :gen_tcp.connect(~c"chat.protohackers.com", 16963, [:binary, active: :once]) do
       {:ok, outgoing_socket} ->
@@ -23,6 +25,8 @@ defmodule Protohackers.MITM.Connection do
   end
 
   @impl true
+  @spec handle_info(any(), %__MODULE__{})
+      :: {:noreply, %__MODULE__{}} | {:stop, any(), %__MODULE__{}}
   def handle_info(msg, state)
 
   def handle_info(
