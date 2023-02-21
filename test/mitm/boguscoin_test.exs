@@ -25,13 +25,13 @@ defmodule Protohackers.MITM.BoguscoinTest do
 
     test "multiple addresses" do
       assert Boguscoin.rewrite_address(Enum.join(@sample_address, " ")) ==
-              Enum.join(
-                List.duplicate(
-                  @address,
-                  length(@sample_address)
-                ),
-                " "
-              )
+               Enum.join(
+                 List.duplicate(
+                   @address,
+                   length(@sample_address)
+                 ),
+                 " "
+               )
     end
 
     test "with sample address" do
@@ -39,10 +39,10 @@ defmodule Protohackers.MITM.BoguscoinTest do
         assert Boguscoin.rewrite_address(address) == @address
         assert Boguscoin.rewrite_address(address <> " foo") == @address <> " foo"
         assert Boguscoin.rewrite_address("foo " <> address) == "foo " <> @address
+
         assert Boguscoin.rewrite_address("foo " <> address <> " bar") ==
-                "foo " <> @address <> " bar"
+                 "foo " <> @address <> " bar"
       end
     end
-
   end
 end
