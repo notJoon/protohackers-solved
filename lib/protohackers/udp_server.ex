@@ -22,6 +22,7 @@ defmodule Protohackers.UDPServer do
         :error ->
           {0, 0, 0, 0}
       end
+
     Logger.info("Starting UDP server on port #{:inet.ntoa(address)}:#{@port}")
 
     case :gen_udp.open(@port, [:binary, active: false, recbuf: 1000, ip: address]) do

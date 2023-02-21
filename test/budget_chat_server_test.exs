@@ -1,8 +1,8 @@
 defmodule Protohackers.BudgetChatServerTest do
   use ExUnit.Case, async: true
 
-  @port     5004
-  @timeout  5_000
+  @port 5004
+  @timeout 5_000
   test "basic chat server flow" do
     {:ok, socket1} =
       :gen_tcp.connect(~c"localhost", @port, mode: :binary, active: false, packet: :line)

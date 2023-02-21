@@ -21,22 +21,21 @@ defmodule Protohackers.PrimeServer do
 
     listen_options = [
       # sent and received data will represent as binaries
-      mode:           :binary,
+      mode: :binary,
 
       # actions on the socket need to be explicit and blocking
-      active:         false,
+      active: false,
 
       # reuse the port if it's already in use
-      reuseaddr:      true,
+      reuseaddr: true,
 
       # allows write to a closed socket
-      exit_on_close:  false,
+      exit_on_close: false,
 
       # Line mode, a packet is a line-terminated with newline,
       # lines longer than the receive buffer are truncated
-      packet:         :line,
-
-      buffer:         1024 * 100,
+      packet: :line,
+      buffer: 1024 * 100
     ]
 
     case :gen_tcp.listen(@port, listen_options) do
@@ -58,8 +57,8 @@ defmodule Protohackers.PrimeServer do
       {:ok, socket} ->
         Task.Supervisor.start_child(
           state.supervisor,
-          fn -> handle_connection(socket)
-        end)
+          fn -> handle_connection(socket) end
+        )
 
         # continue accepting new connections
         {:noreply, state, {:continue, :accept}}
@@ -75,7 +74,8 @@ defmodule Protohackers.PrimeServer do
       {:error, reason} ->
         Logger.error("Failed to receive data: #{inspect(reason)}")
 
-      _ -> :ok
+      _ ->
+        :ok
     end
 
     :gen_tcp.close(socket)
@@ -99,9 +99,11 @@ defmodule Protohackers.PrimeServer do
             {:error, :invalid_request}
         end
 
-      {:error, :closed} -> :ok
+      {:error, :closed} ->
+        :ok
 
-      {:error, reason} -> {:error, reason}
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 

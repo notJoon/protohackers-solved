@@ -21,16 +21,16 @@ defmodule Protohackers.EchoServer do
 
     listen_options = [
       # sent and received data will represent as binaries
-      mode:       :binary,
+      mode: :binary,
 
       # actions on the socket need to be explicit and blocking
-      active:     false,
+      active: false,
 
       # reuse the port if it's already in use
-      reuseaddr:  true,
+      reuseaddr: true,
 
       # allows write to a closed socket
-      exit_on_close: false,
+      exit_on_close: false
     ]
 
     case :gen_tcp.listen(@port, listen_options) do
@@ -51,8 +51,8 @@ defmodule Protohackers.EchoServer do
       {:ok, socket} ->
         Task.Supervisor.start_child(
           state.supervisor,
-          fn -> handle_connection(socket)
-        end)
+          fn -> handle_connection(socket) end
+        )
 
         # continue accepting new connections
         {:noreply, state, {:continue, :accept}}
@@ -86,9 +86,11 @@ defmodule Protohackers.EchoServer do
       {:ok, data} ->
         recv_until_closed(socket, [buffer, data], buffer_size + byte_size(data))
 
-      {:error, :closed} -> {:ok, buffer}
+      {:error, :closed} ->
+        {:ok, buffer}
 
-      {:error, reason} -> {:error, reason}
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end

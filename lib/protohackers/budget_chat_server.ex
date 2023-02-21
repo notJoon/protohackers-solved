@@ -22,25 +22,24 @@ defmodule Protohackers.BudgetChatServer do
     ets = :ets.new(__MODULE__, [:public])
 
     listen_options = [
-      ifaddr:         {0, 0, 0, 0},
+      ifaddr: {0, 0, 0, 0},
 
       # sent and received data will represent as binaries
-      mode:           :binary,
+      mode: :binary,
 
       # actions on the socket need to be explicit and blocking
-      active:         false,
+      active: false,
 
       # reuse the port if it's already in use
-      reuseaddr:      true,
+      reuseaddr: true,
 
       # allows write to a closed socket
-      exit_on_close:  false,
+      exit_on_close: false,
 
       # Line mode, a packet is a line-terminated with newline,
       # lines longer than the receive buffer are truncated
-      packet:         :line,
-
-      buffer:         1024 * 100,
+      packet: :line,
+      buffer: 1024 * 100
     ]
 
     case :gen_tcp.listen(@port, listen_options) do
@@ -62,8 +61,8 @@ defmodule Protohackers.BudgetChatServer do
       {:ok, socket} ->
         Task.Supervisor.start_child(
           state.supervisor,
-          fn -> handle_connection(socket, state.ets)
-        end)
+          fn -> handle_connection(socket, state.ets) end
+        )
 
         # continue accepting new connections
         {:noreply, state, {:continue, :accept}}
@@ -100,9 +99,9 @@ defmodule Protohackers.BudgetChatServer do
           :gen_tcp.close(socket)
         end
 
-        {:error, _reason} ->
-          :gen_tcp.close(socket)
-          :ok
+      {:error, _reason} ->
+        :gen_tcp.close(socket)
+        :ok
     end
   end
 
@@ -128,8 +127,8 @@ defmodule Protohackers.BudgetChatServer do
           :gen_tcp.send(other_socket, "* #{username} left\n")
         end
 
-      _ = :gen_tcp.close(socket)
-      :ets.delete(ets, socket)
+        _ = :gen_tcp.close(socket)
+        :ets.delete(ets, socket)
     end
   end
 end
